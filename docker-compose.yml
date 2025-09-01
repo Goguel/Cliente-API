@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cliente-api-postgres
+    environment:
+      POSTGRES_DB: cliente-api-db
+      POSTGRES_USER: user-api
+      POSTGRES_PASSWORD: password-api
+    ports:
+      - "5432:5432"
+    volumes:
+      - cliente-api-volume:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: cliente-api-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cliente-api-db
+      SPRING_DATASOURCE_USERNAME: user-api
+      SPRING_DATASOURCE_PASSWORD: password-api
+      API_SECURITY_TOKEN_SECRET: ${API_SECRET}
+
+volumes:
+  cliente-api-volume:
