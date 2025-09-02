@@ -125,7 +125,7 @@ Para rodar a suíte de testes unitários e garantir a integridade das regras de 
 
 Com a aplicação em execução, a documentação interativa da API, gerada pelo Swagger UI, pode ser acessada no seguinte endereço:
 
-➡️ **[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
+➡️ **[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)**
 
 A interface do Swagger permite visualizar todos os endpoints, seus parâmetros, DTOs de entrada e saída, e testar a API diretamente pelo navegador.
 
@@ -161,6 +161,51 @@ A imagem abaixo mostra onde deve-se colocar o tipo de autorização(Auth Type) e
 Com o token e o Auth Type corretos, pode-se fazer todas as outras requisições normalmente.
 
 ![](./docs/images/exemplo-postman-auth.jpg)
+
+**Exemplo 1: Cadastrando um novo cliente**
+
+* **Endpoint:**  `POST /clientes`
+* * **Authorization Header:** `Bearer eyJhbGciOiJIUzI1NiJ9...`
+* **Body (raw/JSON):**
+ (Lembre-se de usar um CPF matematicamente válido para passar na validação)
+    ```json
+   {
+      "nome": "Maria da Silva",
+      "cpf": "53268434045",
+      "dataNascimento": "1992-08-15"
+   }
+    ```
+
+**Exemplo 2: Listando e filtrando clientes**
+* **Endpoint:** `GET /clientes` ou `GET /clientes/buscar`
+* **Authorization Header:** `Bearer eyJhbGciOiJIUzI1NiJ9...`
+* **Para listar todos de forma paginada:**
+  `GET http://localhost:8080/clientes?page=0&size=5`
+* **Para buscar por nome (a busca ignora maiúsculas/minúsculas):**
+`GET http://localhost:8080/clientes/buscar?nome=maria`
+* **Para buscar por CPF:**
+`GET http://localhost:8080/clientes/buscar?cpf=53268434045`
+
+**Exemplo 3: Buscando um cliente específico por ID**
+* **Endpoint:** `GET /clientes/{id}`
+* **Authorization Header:** `Bearer eyJhbGciOiJIUzI1NiJ9...`
+
+
+**Exemplo 4: Atualizando um cliente existente**
+* **Endpoint:** `PUT /clientes/{id}`
+* **Authorization Header:** `Bearer eyJhbGciOiJIUzI1NiJ9...`
+* **Body (raw/JSON):**
+    ```json
+    {
+      "nome": "Maria da Silva Souza",
+      "cpf": "53268434045",
+      "dataNascimento": "1992-08-15"
+    }
+    ```
+
+**Exemplo 5: Excluindo um cliente**
+* **Endpoint:** `DELETE /clientes/{id}`
+* **Authorization Header:** `Bearer eyJhbGciOiJIUzI1NiJ9...`
 
 
 ## 🗄️ Acesso ao Banco de Dados PostgreSQL (pgAdmin)
